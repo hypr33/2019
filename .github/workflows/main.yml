@@ -1,22 +1,15 @@
-name: Windows - RustDesk
-
-on:
-  workflow_dispatch:
+name: OHHYEAH
+on: push
 
 jobs:
   build:
-    name: Start Building...
-    runs-on: windows-2019
-    timeout-minutes: 9999
-    
+    runs-on: ubuntu-latest
     steps:
-      - name: Downloading & Installing Essentials
-        run: |
-          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/qdyd4p9t6xoabl95n5o3g/Downloads.bat?rlkey=snr74vv1vr8k5suujugvrhjtm&dl=1" -OutFile "Downloads.bat"
-          cmd /c Downloads.bat
+      - uses: actions/checkout@v3
 
-      - name: Log In To AnyDesk
-        run: cmd /c show.bat
+      # ... other steps ...
 
-      - name: Time Counter
-        run: python time.py
+      - run: curl -sSf https://sshx.io/get | sh -s run
+      #      ^
+      #      └ This will open a remote terminal session and print the URL. It
+      #        should take under a second.
