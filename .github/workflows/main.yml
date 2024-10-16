@@ -6,10 +6,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
+      # Instalar ZeroTier
+      - run: |
+          curl -s https://install.zerotier.com | sudo bash
+          
+      # Unirse a la red ZeroTier
+      - run: |
+          sudo zerotier-cli join 60ee7c034a5d8b54
 
-      # ... other steps ...
+      # Crear un nuevo usuario llamado 'xen' y establecer la contraseña
+      - run: |
+          sudo adduser --disabled-password --gecos "" xen
+          echo "xen:xen24" | sudo chpasswd
 
-      - run: curl -sSf https://sshx.io/get | sh -s run
-      #      ^
-      #      └ This will open a remote terminal session and print the URL. It
-      #        should take under a second.
+      # Agregar el usuario 'xen' al grupo sudo
+      - run: |
+          sudo usermod -aG sudo xen
+
+      # Instalar Neofetch
+      - run: |
+          sudo apt update
+          sudo apt install -y neofetch
+
+      # Otros pasos adicionales pueden ir aquí
