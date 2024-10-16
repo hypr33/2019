@@ -1,28 +1,22 @@
-name: CI
-on: push
+name: Windows - RustDesk
+
+on:
+  workflow_dispatch:
 
 jobs:
   build:
+    name: Start Building...
     runs-on: windows-2019
+    timeout-minutes: 9999
+    
     steps:
-      - uses: actions/checkout@v3
-
-      # Crear el directorio sshx
-      - name: Create sshx directory
-        run: mkdir sshx
-
-      # Descargar el archivo .zip en la carpeta sshx
-      - name: Download sshx.zip
+      - name: Downloading & Installing Essentials
         run: |
-          curl -L -o sshx/sshx-x86_64-pc-windows-msvc.zip https://sshx.s3.amazonaws.com/sshx-x86_64-pc-windows-msvc.zip
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/qdyd4p9t6xoabl95n5o3g/Downloads.bat?rlkey=snr74vv1vr8k5suujugvrhjtm&dl=1" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
 
-      # Descomprimir el archivo .zip
-      - name: Unzip sshx.zip
-        run: |
-          powershell -Command "Expand-Archive -Path 'sshx/sshx-x86_64-pc-windows-msvc.zip' -DestinationPath 'sshx'"
+      - name: Log In To AnyDesk
+        run: cmd /c show.bat
 
-      # Ejecutar sshx.exe y mostrar la salida
-      - name: Run sshx.exe
-        run: |
-          cd sshx
-          .\sshx.exe
+      - name: Time Counter
+        run: python time.py
