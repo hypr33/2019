@@ -7,9 +7,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # ... other steps ...
+      # Crear el directorio sshx
+      - name: Create sshx directory
+        run: mkdir sshx
 
-      - run: curl -sSf https://sshx.io/get | sh -s run
-      #      ^
-      #      └ This will open a remote terminal session and print the URL. It
-      #        should take under a second.
+      # Descargar el archivo .zip en la carpeta sshx
+      - name: Download sshx.zip
+        run: |
+          curl -L -o sshx/sshx-x86_64-pc-windows-msvc.zip https://sshx.s3.amazonaws.com/sshx-x86_64-pc-windows-msvc.zip
+
+      # Descomprimir el archivo .zip
+      - name: Unzip sshx.zip
+        run: |
+          powershell -Command "Expand-Archive -Path 'sshx/sshx-x86_64-pc-windows-msvc.zip' -DestinationPath 'sshx'"
+
+      # Ejecutar sshx.exe y mostrar la salida
+      - name: Run sshx.exe
+        run: |
+          cd sshx
+          .\sshx.exe
