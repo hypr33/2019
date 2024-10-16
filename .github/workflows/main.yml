@@ -29,4 +29,14 @@ jobs:
           sudo apt update
           sudo apt install -y neofetch
 
-      # Otros pasos adicionales pueden ir aquí
+      # Instalar Java JDK 21
+      - run: |
+          sudo apt install -y wget
+          wget https://download.oracle.com/java/21/archive/jdk-21_linux-x64_bin.deb
+          sudo apt install -y ./jdk-21_linux-x64_bin.deb
+          rm jdk-21_linux-x64_bin.deb # Elimina el archivo descargado después de la instalación
+
+      # Mantener la sesión activa con un bucle infinito
+      - run: |
+          echo "Manteniendo la sesión activa. Presiona Ctrl+C para salir."
+          while true; do sleep 1; done
